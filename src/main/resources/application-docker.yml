@@ -1,0 +1,13 @@
+spring:
+  config:
+    import: file:/opt/app/.env.yml
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/ZOM100
+          jwk-set-uri: http://localhost:8080/realms/ZOM100/protocol/openid-connect/certs
+
+logging:
+  level:
+    org.springframework.boot: INFO
