@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import ua.lemoncat.zom100tasks.dto.CreateTaskDTO;
 import ua.lemoncat.zom100tasks.dto.SaveTasksDTO;
+import ua.lemoncat.zom100tasks.dto.TaskDTO;
 import ua.lemoncat.zom100tasks.dto.UpdateTaskDTO;
 
 import java.util.List;
@@ -22,37 +23,37 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping
-    public List<Task> getAllTasks(@AuthenticationPrincipal Jwt principal) {
+    public List<TaskDTO> getAllTasks(@AuthenticationPrincipal Jwt principal) {
         return taskService.getAll(principal.getSubject());
     }
 
     @PostMapping
-    public List<Task> addTask(@AuthenticationPrincipal Jwt principal, @RequestBody CreateTaskDTO createTaskDTO) {
+    public List<TaskDTO> addTask(@AuthenticationPrincipal Jwt principal, @RequestBody CreateTaskDTO createTaskDTO) {
         return taskService.create(createTaskDTO, principal.getSubject());
     }
 
     @PutMapping
-    public List<Task> updateTask(@AuthenticationPrincipal Jwt principal, @RequestBody UpdateTaskDTO updateTaskDTO) {
+    public List<TaskDTO> updateTask(@AuthenticationPrincipal Jwt principal, @RequestBody UpdateTaskDTO updateTaskDTO) {
         return taskService.update(updateTaskDTO, principal.getSubject());
     }
 
     @DeleteMapping("{taskId}")
-    public List<Task> deleteTask(@AuthenticationPrincipal Jwt principal, @PathVariable UUID taskId) {
+    public List<TaskDTO> deleteTask(@AuthenticationPrincipal Jwt principal, @PathVariable UUID taskId) {
         return taskService.delete(taskId, principal.getSubject());
     }
 
     @PatchMapping("{taskId}/complete")
-    public List<Task> completeTask(@AuthenticationPrincipal Jwt principal, @PathVariable UUID taskId) {
+    public List<TaskDTO> completeTask(@AuthenticationPrincipal Jwt principal, @PathVariable UUID taskId) {
         return taskService.changeStatus(taskId, principal.getSubject(), Status.COMPLETED);
     }
 
     @PatchMapping("{taskId}/in-progress")
-    public List<Task> inProgressTask(@AuthenticationPrincipal Jwt principal, @PathVariable UUID taskId) {
+    public List<TaskDTO> inProgressTask(@AuthenticationPrincipal Jwt principal, @PathVariable UUID taskId) {
         return taskService.changeStatus(taskId, principal.getSubject(), Status.IN_PROGRESS);
     }
 
     @PostMapping("save")
-    public List<Task> saveTasks(@AuthenticationPrincipal Jwt principal, @RequestBody List<SaveTasksDTO> tasks) {
+    public List<TaskDTO> saveTasks(@AuthenticationPrincipal Jwt principal, @RequestBody List<SaveTasksDTO> tasks) {
         return taskService.saveTasks(principal.getSubject(), tasks);
     }
 }
