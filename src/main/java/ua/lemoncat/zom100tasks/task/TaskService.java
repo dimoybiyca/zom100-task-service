@@ -40,6 +40,7 @@ public class TaskService {
     public List<TaskDTO> delete(UUID taskId, String userId) {
         taskRepository.deleteByIdAndOwnerId(taskId, userId);
         List<TaskDTO> list = getAll(userId);
+
         if(list.stream().noneMatch(task -> task.getId() == taskId)) {
             return list;
         } else {
